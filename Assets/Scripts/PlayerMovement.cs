@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private Animator anim;
     private PlayerDefend playerDefend;
+    public AudioSource jumpSound;
+    public AudioSource runSound;
+    private bool isRunning; 
 
     private void Awake()
     {
@@ -33,11 +36,29 @@ public class PlayerMovement : MonoBehaviour
 
         anim.SetBool("run", horizontalInput != 0);
         anim.SetBool("grounded", PlayerController.Instance.Grounded);
+
+        HandleRunningSound(horizontalInput); // handle running sound logic
+    }
+
+    private void HandleRunningSound(float horizontalInput)
+    {
+        // Check if the player is moving horizontally (running)
+        if (horizontalInput != 0 && !isRunning)
+        {
+            runSound.Play(); // play the running sound if not already playing
+            isRunning = true;
+        }
+        else if (horizontalInput == 0 && isRunning || PlayerController.Instance.IsJumping)
+        {
+            runSound.Stop(); // stop the running sound if not moving
+            isRunning = false;
+        }
     }
 
     private void Jump() 
     {
         body.velocity = new Vector2(body.velocity.x, jumpForce);
+        jumpSound.Play();
         anim.SetTrigger("jump");
         PlayerController.Instance.Grounded = false;
         PlayerController.Instance.IsJumping = true;

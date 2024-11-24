@@ -11,7 +11,6 @@ public class CollectibleController : MonoBehaviour
         {
             PlayerController.Instance.Health += 10;  // update the score
             Destroy(gameObject);  // destroy the collectible
-            print("Health: " + PlayerController.Instance.Health);
             PlayerController.Instance.UpdateHealthUI();
         }
     }

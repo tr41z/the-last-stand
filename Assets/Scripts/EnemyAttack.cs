@@ -75,6 +75,7 @@ public class EnemyAttack : MonoBehaviour
             if (player != null && !PlayerDefend.Instance.IsDefending())
             {
                 player.TakeDamage(damageAmount, player.GetComponent<Animator>());
+                
             }
         }
 

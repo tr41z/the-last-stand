@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] public int DamageAmount = 10;
     private bool isInCollisionZone = false; // to track if the player is in collision with the enemy
     private Collider2D enemyCollider; 
+    public AudioSource attackSound;
 
     void Awake()
     {
@@ -62,6 +63,7 @@ public class PlayerAttack : MonoBehaviour
     void FirstHit()
     {
         anim.Play("Attack");
+        attackSound.Play();
         comboHits++;
         timer = timerSet;
         AttemptDamage();
@@ -70,6 +72,7 @@ public class PlayerAttack : MonoBehaviour
     void SecondHit()
     {
         anim.Play("Attack1");
+        attackSound.Play();
         comboHits++;
         timer = timerSet;
         AttemptDamage();
@@ -78,6 +81,7 @@ public class PlayerAttack : MonoBehaviour
     void FinalHit()
     {
         anim.Play("Attack2");
+        attackSound.Play();
         comboHits = 0;
         timer = 0;
         AttemptDamage();
