@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public static PlayerAttack Instance { get; private set; }  // singleton instance
     float timer = 0;
     [SerializeField] float timerSet; // the time between combo hits (cooldown)
     [SerializeField] float attackCooldown = 0.25f; // cooldown time between attacks
@@ -10,12 +11,17 @@ public class PlayerAttack : MonoBehaviour
     Animator anim;
     private bool grounded;
     private bool isJumping;
-    [SerializeField] private int damageAmount = 10;
+    [SerializeField] public int DamageAmount = 10;
     private bool isInCollisionZone = false; // to track if the player is in collision with the enemy
     private Collider2D enemyCollider; 
 
     void Awake()
     {
+        if (Instance == null)
+            Instance = this; // Assign the singleton instance
+        else
+            Destroy(gameObject); // Ensure there is only one instance
+
         anim = GetComponent<Animator>();
     }
 
@@ -85,7 +91,7 @@ public class PlayerAttack : MonoBehaviour
             var enemy = enemyCollider.GetComponent<EnemyController>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damageAmount, transform.position);
+                enemy.TakeDamage(DamageAmount, transform.position);
             }
         }
     }

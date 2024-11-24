@@ -12,8 +12,8 @@ public class PlayerDefend : MonoBehaviour
 
     private void Update()
     {
-        // Check if the player is in Room2 before allowing defend
-        if (PlayerController.Instance.IsInRoom2 && Input.GetKey(KeyCode.Mouse1) && PlayerController.Instance.Grounded && !PlayerController.Instance.IsJumping)
+        // Check if the player is in DefendZone before allowing defend
+        if (PlayerController.Instance.IsInDefendZone && Input.GetKey(KeyCode.Mouse1) && PlayerController.Instance.Grounded && !PlayerController.Instance.IsJumping)
         {
             Defend();
         }

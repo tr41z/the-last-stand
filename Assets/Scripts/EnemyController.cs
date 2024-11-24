@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    private int health;
+    [SerializeField] private int health;
     private Rigidbody2D rb;
     private Animator anim;
     private float knockbackForce = 4f;
@@ -26,11 +26,6 @@ public class EnemyController : MonoBehaviour
     void OnDestroy()
     {
         PlayerController.OnPlayerDeath -= HandlePlayerDeath;  // unsubscribe from player death event
-    }
-
-    void Start()
-    {
-        health = 100;
     }
 
     void Update()
