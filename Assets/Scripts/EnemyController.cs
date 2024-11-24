@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     public bool IsAttacking { get; set; } = false; // track if the enemy is attacking
     public bool IsDead => isDead;
     private float detectionRadius = 10f;
+    [SerializeField] private float minimumDistance = 1.0f;
 
     void Awake()
     {
@@ -54,21 +55,31 @@ public class EnemyController : MonoBehaviour
 
     private void FollowPlayerOnXAxis()
     {
-        anim.SetBool("run", true);
-        float step = followSpeed * Time.deltaTime;
-        Vector2 targetPosition = new Vector2(player.position.x, transform.position.y);
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, step);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // Flip the sprite based on the direction
-        if (transform.position.x < player.position.x && transform.localScale.x < 0)
+        // Only move if the enemy is farther than the minimum distance
+        if (distanceToPlayer > minimumDistance)
         {
-            // Enemy is to the left of the player, face right
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            anim.SetBool("run", true);
+            float step = followSpeed * Time.deltaTime;
+            Vector2 targetPosition = new Vector2(player.position.x, transform.position.y);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, step);
+
+            // Flip the sprite based on the direction
+            if (transform.position.x < player.position.x && transform.localScale.x < 0)
+            {
+                // Enemy is to the left of the player, face right
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+            else if (transform.position.x > player.position.x && transform.localScale.x > 0)
+            {
+                // Enemy is to the right of the player, face left
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
         }
-        else if (transform.position.x > player.position.x && transform.localScale.x > 0)
+        else
         {
-            // Enemy is to the right of the player, face left
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            anim.SetBool("run", false); // stop running animation when too close
         }
     }
 

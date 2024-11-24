@@ -18,9 +18,9 @@ public class PlayerAttack : MonoBehaviour
     void Awake()
     {
         if (Instance == null)
-            Instance = this; // Assign the singleton instance
+            Instance = this; // assign the singleton instance
         else
-            Destroy(gameObject); // Ensure there is only one instance
+            Destroy(gameObject); // ensure there is only one instance
 
         anim = GetComponent<Animator>();
     }

@@ -72,7 +72,7 @@ public class EnemyAttack : MonoBehaviour
         if (isPlayerInRange)
         {
             var player = PlayerController.Instance; // access the player via the singleton instance
-            if (player != null)
+            if (player != null && !PlayerDefend.Instance.IsDefending())
             {
                 player.TakeDamage(damageAmount, player.GetComponent<Animator>());
             }

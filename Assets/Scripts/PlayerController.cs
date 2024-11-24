@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool IsInDefendZone { get; private set; }
     private bool isNearRune = false;  // flag to track if near a rune
     private Collider2D currentRune;  // reference to the current rune collider
+    public Text healthText;
 
     private void Awake()
     {
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
         Grounded = true;
         IsJumping = false;
         health = 100;
+        UpdateHealthUI();
     }
 
     private void Update()
@@ -54,7 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         anim.Play("Damage");
         Health -= amount;
-        Debug.Log("Player Health: " + Health);
+        UpdateHealthUI();
     }
 
     public void Die()
@@ -100,5 +103,11 @@ public class PlayerController : MonoBehaviour
     {
         print("ENTERED DEFEND ZONE");
         IsInDefendZone = true;
+    }
+
+    // Update the health display on the UI
+    public void UpdateHealthUI()
+    {
+        healthText.text = health.ToString();
     }
 }
