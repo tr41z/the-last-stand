@@ -97,11 +97,11 @@ public class EnemyController : MonoBehaviour
     private void Die()
     {
         isDead = true; // set the dead flag to stop movement
-        Destroy(GetComponent<BoxCollider2D>()); // Disable collisions
+        Destroy(GetComponent<BoxCollider2D>()); // disable collisions
         rb.isKinematic = true;
         rb.velocity = Vector2.zero;
 
-        anim.Play("Death"); // Play death animation
+        anim.Play("Death"); // play death animation
 
         // Delay destruction based on animation length
         float deathAnimationLength = anim.GetCurrentAnimatorStateInfo(0).length;

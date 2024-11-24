@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     public bool IsJumping { get; set; }
     private Animator anim;
     private Rigidbody2D rb;
-    public int Score = 0;
     public bool IsInRoom2 { get; private set; }
 
     private void Awake()
@@ -63,7 +62,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Room2")) 
         {
             print("ENTERED LEVEL 2");
-            IsInRoom2 = true; // Set the flag to true when entering Room2
+            IsInRoom2 = true; // set the flag to true when entering Room2
         }
     }
 
@@ -72,7 +71,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Room2"))
         {
             print("EXITED LEVEL 2");
-            IsInRoom2 = false; // Set the flag to false when leaving Room2
+            IsInRoom2 = false; // set the flag to false when leaving Room2
         }
     }
 }

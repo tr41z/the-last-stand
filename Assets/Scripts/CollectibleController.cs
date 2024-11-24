@@ -9,9 +9,9 @@ public class CollectibleController : MonoBehaviour
         // Check if the player collided with the collectible
         if (other.CompareTag("Player"))
         {
-            PlayerController.Instance.Score += 1;  // update the score
+            PlayerController.Instance.Health += 10;  // update the score
             Destroy(gameObject);  // destroy the collectible
-            print("Score: " + PlayerController.Instance.Score);
+            print("Health: " + PlayerController.Instance.Health);
         }
     }
 }
