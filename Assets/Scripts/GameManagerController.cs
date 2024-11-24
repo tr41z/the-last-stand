@@ -19,6 +19,7 @@ public class GameManagerController : MonoBehaviour
     
     // UI Elements for Pause Menu
     public GameObject resumeGameUI;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class GameManagerController : MonoBehaviour
         FreezeGame(true);
         startGameUI.SetActive(true); // show the start screen UI
         resumeGameUI.SetActive(false);  // hide the pause menu UI
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -34,16 +36,19 @@ public class GameManagerController : MonoBehaviour
         if (currentState == GameState.Menu && Input.GetKeyDown(KeyCode.S))
         {
             StartGame();
+            audioSource.Play();
         }
         // Pause the game when in Playing state and Escape is pressed
         else if (currentState == GameState.Playing && Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
+            audioSource.Stop();
         }
         // Resume the game when in Paused state and Escape is pressed
         else if (currentState == GameState.Paused && Input.GetKeyDown(KeyCode.R))
         {
             ResumeGame();
+            audioSource.Play();
         }
     }
 
