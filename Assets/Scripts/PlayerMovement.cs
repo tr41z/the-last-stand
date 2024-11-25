@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Check if the player is alive before allowing movement and flipping
         if (PlayerController.Instance.Health <= 0) 
-            return;  // Exit the method early if the player is dead
+            return;  // exit the method early if the player is dead
 
         float horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);

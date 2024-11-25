@@ -9,6 +9,7 @@ TagManager:
   - Collectible
   - Rune
   - DefendZone
+  - Chest
   layers:
   - Default
   - TransparentFX

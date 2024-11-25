@@ -17,8 +17,11 @@ public class PlayerController : MonoBehaviour
     public bool IsInDefendZone { get; private set; }
     private bool isNearRune = false;  // flag to track if near a rune
     private Collider2D currentRune;  // reference to the current rune collider
+    private bool isNearChest = false;
+    private Collider2D currentChest;
     public Text healthText;
     private bool isRespawning = false;
+    public GameObject endScreenUI;
 
     private void Awake()
     {
@@ -53,6 +56,13 @@ public class PlayerController : MonoBehaviour
 
             isNearRune = false;  // reset the flag
             currentRune = null;  // clear the rune reference
+        }
+        if (isNearChest && Input.GetKeyDown(KeyCode.E))
+        {
+            endScreenUI.SetActive(true);
+            Destroy(currentChest.gameObject);
+            isNearChest = false;
+            currentChest = null;
         }
     }
 
@@ -94,6 +104,12 @@ public class PlayerController : MonoBehaviour
         {
             isNearRune = true;  // set flag when near a rune
             currentRune = other;  // store reference to the rune
+        }
+
+        if (other.CompareTag("Chest"))
+        {
+            isNearChest = true;
+            currentChest = other;
         }
     }
 
