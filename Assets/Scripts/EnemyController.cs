@@ -22,11 +22,13 @@ public class EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player").transform; // assign the player object by tag
         PlayerController.OnPlayerDeath += HandlePlayerDeath;  // subscribe to player death event
+        PlayerController.OnPlayerRespawn += ResetEnemy;  // subscribe to player respawn event
     }
 
     void OnDestroy()
     {
         PlayerController.OnPlayerDeath -= HandlePlayerDeath;  // unsubscribe from player death event
+        PlayerController.OnPlayerRespawn -= ResetEnemy;  // unsubscribe from player respawn event
     }
 
     void Update()
@@ -139,5 +141,16 @@ public class EnemyController : MonoBehaviour
         anim.SetBool("run", false);  // stop running animation
         isKnockedBack = true;  // prevent further movement
         IsAttacking = false;  // prevent attacking
+    }
+
+    private void ResetEnemy()
+    {
+        isDead = false;
+        isKnockedBack = false;
+        IsAttacking = false;
+        health = 100;  // reset health or set to initial value
+        rb.isKinematic = false;
+        anim.SetBool("run", false);
+        anim.Play("Idle");
     }
 }

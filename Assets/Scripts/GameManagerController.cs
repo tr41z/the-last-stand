@@ -31,6 +31,17 @@ public class GameManagerController : MonoBehaviour
         resumeGameUI.SetActive(false);  // hide the pause menu UI
     }
 
+    void OnEnable()
+    {
+        PlayerController.OnPlayerRespawn += RestartGame;  // react only to respawn
+    }
+
+    void OnDisable()
+    {
+        PlayerController.OnPlayerRespawn -= RestartGame;
+    }
+
+
     void Update()
     {
         // Check for user input to start the game
@@ -83,6 +94,13 @@ public class GameManagerController : MonoBehaviour
         // Hide pause menu UI and unfreeze the game
         resumeGameUI.SetActive(false);
         FreezeGame(false);
+    }
+
+    void RestartGame()
+    {
+        Debug.Log("Restarting Game...");
+        currentState = GameState.Playing;
+        FreezeGame(false);  // unfreeze the game
     }
 
     void FreezeGame(bool freeze)

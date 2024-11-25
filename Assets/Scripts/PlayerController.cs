@@ -1,11 +1,13 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }  // singleton instance
     public static event Action OnPlayerDeath;  // event for player death
+    public static event Action OnPlayerRespawn;  // event for player respawn
     private int health;
     public int Health { get => health; set => health = Mathf.Max(0, value); }  // health property with clamping
     public bool Grounded { get; set; }
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool isNearRune = false;  // flag to track if near a rune
     private Collider2D currentRune;  // reference to the current rune collider
     public Text healthText;
+    private bool isRespawning = false;
 
     private void Awake()
     {
@@ -62,17 +65,28 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        if (health > 0) return;
+        if (health > 0 || isRespawning) return;  // ensure Die logic runs only once per death
 
+        isRespawning = true;  // mark as respawning
         rb.isKinematic = true;
         rb.velocity = Vector2.zero;
         transform.localScale = Vector3.one;
 
         anim.SetBool("run", false);
         anim.Play("Death");
-        OnPlayerDeath?.Invoke();  // trigger the event
+        OnPlayerDeath?.Invoke();  // trigger the death event for external listeners
+
+        StartCoroutine(WaitForDeathAnimation());
     }
 
+    private IEnumerator WaitForDeathAnimation()
+    {
+        float deathAnimationLength = anim.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(deathAnimationLength + 3f);  // wait for animation + 3 seconds
+
+        ResetPlayer();
+        isRespawning = false;  // reset the flag
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("DefendZone")) HandleDefendZoneEnter();
@@ -109,5 +123,16 @@ public class PlayerController : MonoBehaviour
     public void UpdateHealthUI()
     {
         healthText.text = health.ToString();
+    }
+
+    public void ResetPlayer()
+    {
+        health = 100;
+        UpdateHealthUI();
+        rb.isKinematic = false;
+        anim.SetBool("run", false);
+        anim.Play("Idle");
+        transform.position = new Vector3(-19.0f, 0.0f);  // reset position
+        OnPlayerRespawn?.Invoke();  // trigger respawn event
     }
 }
