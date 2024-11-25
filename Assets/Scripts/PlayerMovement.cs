@@ -23,9 +23,14 @@ public class PlayerMovement : MonoBehaviour
         if (playerDefend.IsDefending())  // prevent movement when defending
             return;
 
+        // Check if the player is alive before allowing movement and flipping
+        if (PlayerController.Instance.Health <= 0) 
+            return;  // Exit the method early if the player is dead
+
         float horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
+        // Flip the character based on movement direction, but only if the player is alive
         if (horizontalInput > 0.01f)
             transform.localScale = Vector3.one;
         else if (horizontalInput < -0.01f)
@@ -39,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
         HandleRunningSound(horizontalInput); // handle running sound logic
     }
+
 
     private void HandleRunningSound(float horizontalInput)
     {

@@ -66,11 +66,10 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         if (health > 0 || isRespawning) return;  // ensure Die logic runs only once per death
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         isRespawning = true;  // mark as respawning
         rb.isKinematic = true;
-        rb.velocity = Vector2.zero;
-        transform.localScale = Vector3.one;
 
         anim.SetBool("run", false);
         anim.Play("Death");
@@ -127,6 +126,9 @@ public class PlayerController : MonoBehaviour
 
     public void ResetPlayer()
     {
+        rb.constraints = RigidbodyConstraints2D.None;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
         health = 100;
         UpdateHealthUI();
         rb.isKinematic = false;
