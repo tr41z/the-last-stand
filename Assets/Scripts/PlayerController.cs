@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
         {
             endScreenUI.SetActive(true);
             Destroy(currentChest.gameObject);
+
             isNearChest = false;
             currentChest = null;
         }
@@ -125,6 +126,12 @@ public class PlayerController : MonoBehaviour
         {
             isNearRune = false;  // clear flag when leaving the rune area
             currentRune = null;  // clear rune reference
+        }
+
+        if (other.CompareTag("Chest"))
+        {
+            isNearChest = false;
+            currentChest = null;
         }
     }
 
