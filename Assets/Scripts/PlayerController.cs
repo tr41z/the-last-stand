@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public GameObject endScreenUI;
     public GameObject collectRuneUI;
     public GameObject finishGameUI;
+    public GameObject defendZoneUI;
 
     private void Awake()
     {
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("DefendZone")) HandleDefendZoneEnter();
+        if (other.CompareTag("DefendZoneUI")) defendZoneUI.SetActive(true);
 
         if (other.CompareTag("Rune"))
         {
@@ -122,9 +124,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("DefendZone"))
         {
-            print("EXITED DEFEND ZONE");
+            defendZoneUI.SetActive(false);
             IsInDefendZone = false; // set the flag to false when leaving DefendZone
         }
+
+        if (other.CompareTag("DefendZoneUI")) defendZoneUI.SetActive(false);
 
         if (other.CompareTag("Rune"))
         {
@@ -143,7 +147,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDefendZoneEnter()
     {
-        print("ENTERED DEFEND ZONE");
         IsInDefendZone = true;
     }
 

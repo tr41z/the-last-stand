@@ -10,6 +10,7 @@ TagManager:
   - Rune
   - DefendZone
   - Chest
+  - DefendZoneUI
   layers:
   - Default
   - TransparentFX
