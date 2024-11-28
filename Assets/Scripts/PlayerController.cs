@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public Text healthText;
     private bool isRespawning = false;
     public GameObject endScreenUI;
+    public GameObject collectRuneUI;
+    public GameObject finishGameUI;
 
     private void Awake()
     {
@@ -103,12 +105,14 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Rune"))
         {
+            collectRuneUI.SetActive(true);
             isNearRune = true;  // set flag when near a rune
             currentRune = other;  // store reference to the rune
         }
 
         if (other.CompareTag("Chest"))
         {
+            finishGameUI.SetActive(true);
             isNearChest = true;
             currentChest = other;
         }
@@ -124,12 +128,14 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Rune"))
         {
+            collectRuneUI.SetActive(false);
             isNearRune = false;  // clear flag when leaving the rune area
             currentRune = null;  // clear rune reference
         }
 
         if (other.CompareTag("Chest"))
         {
+            finishGameUI.SetActive(false);
             isNearChest = false;
             currentChest = null;
         }
