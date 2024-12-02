@@ -148,7 +148,6 @@ public class EnemyController : MonoBehaviour
         isDead = false;
         isKnockedBack = false;
         IsAttacking = false;
-        health = 100;  // reset health or set to initial value
         rb.isKinematic = false;
         anim.SetBool("run", false);
         anim.Play("Idle");
